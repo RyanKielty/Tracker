@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{{^userName}}
+<form action="/login" method="post">
+    <input type="text" placeholder="Enter Admin Username" name="loginName" required/>
+    <button type="submit">Login</button>
+</form><br>
+{{/userName}}
+{{#userName}}
+<h3>
+Hi {{.}}!
+</h3>
+<br>
+<h1>
+Welcome to a (very) basic NFL Defensive stats board.
+</h1>
+<br><br>
+<form action="/add-statistics" method="post">
+    Player:
+    <input type="text" placeholder="First Name/Initial" name="firstName" required/>
+    <input type="text" placeholder="Last Name" name="lastName" required/><br>
+    Match-up:
+    <input type="text" placeholder="Team" name="team" required/> vs.
+    <input type="text" placeholder="Team Played" name="teamPlayed" required/><br>
+    Game Statistics:
+    <input type="number" placeholder="Tackles" name="totalTackles"/>
+    <input type="number" placeholder="Sacks" name="sacks"/>
+    <input type="number" placeholder="Interceptions" name="interceptions"/>
+    <input type="number" placeholder="Forced Fumbles" name="forcedFumbles"/><br><br>
+    <button type="submit">Add Stats</button>
+</form><br>
+
+
+
+
+
+
+<br><br><br><br>
+<form action="/logout" method="post">
+    <button type="submit">Logout</button>
+</form>
+{{/userName}}
+</body>
+</html>
