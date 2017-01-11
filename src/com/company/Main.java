@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Main {
 
     static HashMap<String, User> users = new HashMap<>();
-    static ArrayList<FootballDefenseGameStatistics> statistics = new ArrayList<>();
+    static ArrayList<FootballDefenseSeasonStatistics> statistics = new ArrayList<>();
 
     public static void main(String[] args) {
         Spark.init();
@@ -64,12 +64,54 @@ public class Main {
         Spark.post(
                 "/add-statistics",
                 ((request, response) -> {
+                    Session session = request.session();
+                    String userName = session.attribute("userName");
 
+                    if (userName == null) {
+                        throw new Exception ("Shame on you, login!");
+                    }
+
+                    int uniformNumber = Integer.parseInt(request.queryParams("uniformNumber"));
+                    if (uniformNumber < 1 && uniformNumber > 99) {
+                        throw new Exception("Not a valid jersey number.");
+                    }
+
+                    String lastName = request.queryParams("lastName");
+                    if (lastName == null) {
+                        throw new Exception("Player's Last name is required for stat entry.");
+                    }
+
+                    String team = request.queryParams("team");
+                    if (team == null) {
+                        throw new Exception("Team name is required for stat entry");
+                    }
+
+                    int totalTackles = Integer.parseInt(request.queryParams("totalTackles"));
+                    if (totalTackles < 0) {
+                        throw new Exception("Invalid entry");
+                    }
+
+                    Double sacks = Double.parseDouble(request.queryParams("sacks"));
+                    if (sacks < 0) {
+                        throw new Exception("Invalid entry");
+                    }
+
+                    int interceptions = Integer.parseInt(request.queryParams("interceptions"));
+                    if (interceptions < 0) {
+                        throw new Exception("Invalid entry");
+                    }
+
+                    FootballDefenseSeasonStatistics seasonStatistics = new FootballDefenseSeasonStatistics
+                            (uniformNumber, lastName, team, totalTackles, sacks, interceptions);
+                    statistics.add(seasonStatistics);
 
 
                     response.redirect("/");
                     return "";
                 })
         );
+
+
+
     }
 }
