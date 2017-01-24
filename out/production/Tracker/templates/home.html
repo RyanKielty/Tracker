@@ -2,37 +2,57 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home</title>
+    <style>
+        h1 {text-align:center}
+        body {margin: 0 auto 16px auto}
+        body {border: 1px solid #000}
+        body {width: 320px}
+        body {padding: 16px}
+    </style>
 </head>
 <body>
-{{^userName}}
-<form action="/login" method="post">
-    <input type="text" placeholder="Enter Admin Username" name="loginName" />
-    <button type="submit">Login</button>
-</form><br>
-{{/userName}}
 {{#userName}}
 <h3>
-Hi {{.}}!<br>
-    <form action="/logout" method="post">
+    Hi {{.}}!<br>
+    <form action="/logout" method="post"><br>
         <button type="submit">Logout</button>
     </form>
 </h3>
 <h1>
-Welcome to a (very) basic NFL Defensive stats board.
+    Album Tracker:
 </h1>
+Fill the album information below:
+<br><br>
+<form action="/add-album" method="post">
+    <input type="text" placeholder="Title" name="albumTitle" required/><br>
+    <input type="text" placeholder="Artist" name="artist" required/><br>
+    <input type="text" placeholder="Release Year" name="releaseYear"/><br>
+    <button type="submit">Add Album</button>
+</form>
 <br>
-<form action="/add-statistics" method="post">
-    <input type="text" placeholder="Team" name="team" required/>
-    <input type="text" placeholder="Last Name" name="lastName" required/>
-    <input type="text" placeholder="Uniform #" name="uniformNumber" required/><br>
-    <input type="number" placeholder="Tackles" name="totalTackles"/>
-    <input type="number" placeholder="Sacks" name="sacks"/>
-    <input type="number" placeholder="Interceptions" name="interceptions"/>
-    <button type="submit">Add Stats</button>
-</form><br>
-
-
+<form action="/edit-album" method="post">
+    <input type="text" placeholder="Album #" name="editAlbum" required/><br>
+    <input type="text" placeholder="Title" name="albumTitle" required/><br>
+    <input type="text" placeholder="Artist" name="artist" required/><br>
+    <input type="text" placeholder="Release Year" name="releaseYear"/><br>
+    <button type="submit">Make a Change</button>
+</form>
+<br>
+<form action="/remove-album" method="post">
+    <input type="text" placeholder="Remove which #" name="removeAlbum"/><br>
+    <button type="submit">Listened</button>
+</form>
+<br>
+<ol>
+    {{#albums}}
+    <li>
+        <b>Album:</b>  {{albumTitle}}<br>
+        <b>Artist:</b> {{artist}}<br>
+        <b>Year:</b>   {{releaseYear}}<br>
+    </li>
+    {{/albums}}
+</ol>
 
 
 {{/userName}}
